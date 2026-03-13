@@ -1,0 +1,13 @@
+import pyautogui
+import time
+pyautogui.FAILSAFE = True
+pyautogui.PAUSE = 0
+print("started")
+time.sleep(2)
+pyautogui.moveTo(x=1547, y=321)
+pyautogui.click()
+while True:
+    if pyautogui.pixelMatchesColor(1547, 321, (75, 219, 106)):
+        print("FOUND!")
+        pyautogui.click()
+        break
