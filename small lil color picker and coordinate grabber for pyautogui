@@ -1,0 +1,20 @@
+import pyautogui
+import time
+
+
+
+print("start!")
+
+I = input
+D = int(I("what interval? "))
+A = int(I("How many times? "))
+for i in range (A):
+    T = D
+    X, Y = pyautogui.position()
+    C = pyautogui.pixel(X, Y)
+    results = f" POS: {X, Y} COLOR: {C}"
+    for j in range(D, 0, -1):
+        T -= 1 
+        print("time left: " + str(T))
+        time.sleep(1)
+    print(results) 
