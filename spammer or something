@@ -1,12 +1,28 @@
 import pyautogui
 import time
+from pynput import keyboard
+ON = True
 pyautogui.FAILSAFE = True
 print("started")
-test = input("what do you wanna repeat")
-NUM = int(input("amount? "))
+test = pyautogui.prompt("what do you wanna repeat")
+NUM = int(pyautogui.prompt("amount? "))
+pyautogui.confirm("press Esc to stop")
 print("get ready!")
-time.sleep(3)
+time.sleep(5)
+def on_press(key):
+    global ON
+    if key == keyboard.Key.esc:
+            print("stopped")
+            ON = not ON
 
-for i in range (NUM):
-    pyautogui.write(test + " ", interval=000.1)
-    pyautogui.press("space")
+listener = keyboard.Listener(
+    on_press=on_press)
+listener.start()
+
+while ON:
+    for i in range (NUM):
+        if not ON:
+            break
+        pyautogui.write(test + " ", interval=000.1)
+        pyautogui.press("space")
+ON = False
