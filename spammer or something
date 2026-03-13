@@ -1,0 +1,12 @@
+import pyautogui
+import time
+pyautogui.FAILSAFE = True
+print("started")
+test = input("what do you wanna repeat")
+NUM = int(input("amount? "))
+print("get ready!")
+time.sleep(3)
+
+for i in range (NUM):
+    pyautogui.write(test + " ", interval=000.1)
+    pyautogui.press("space")
