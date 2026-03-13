@@ -1,6 +1,10 @@
 import pyautogui
 import time
 pyautogui.FAILSAFE = True
+pyautogui.PAUSE = 0.05
 time.sleep(2)
+P, Y = pyautogui.position()
 while True:
-    pyautogui.click(*pyautogui.position())
+    pyautogui.moveTo(P + 10, Y)
+    pyautogui.moveTo(P, Y)
+    pyautogui.click()
