@@ -1,0 +1,64 @@
+import pyautogui
+import time
+from pynput import keyboard
+
+# --- YOUR CALIBRATED COORDS ---
+SKIP_X = 1830
+SKIP_Y = 958
+# -----------------------------
+
+WAIT_WINDOW = 5.0  # Max time between the two clicks
+is_waiting_for_second_click = False
+last_click_time = 0
+
+def perform_skip():
+    print(f"🚀 Sequence complete! Clicking at ({SKIP_X}, {SKIP_Y})")
+    
+    # Save mouse position
+    old_x, old_y = pyautogui.position()
+    
+    # First Click (the actual skip)
+    pyautogui.click(SKIP_X, SKIP_Y, duration=0.1)
+    
+    # Tiny pause and then the Safety Click
+    time.sleep(0.2)
+    pyautogui.press('space')  # Assuming you want to press the spacebar as a safety click
+    pyautogui.press('space')  # Assuming you want to press the spacebar as a safety click
+    
+    # Return mouse instantly
+    pyautogui.moveTo(old_x, old_y)
+    
+   
+    print("✅ Ad Skipped.")
+
+def on_press(key):
+    global is_waiting_for_second_click, last_click_time
+    
+    # Listen for headphone signals
+    if key in [keyboard.Key.media_play_pause, keyboard.Key.media_next]:
+        current_time = time.time()
+        
+        if not is_waiting_for_second_click:
+            # First click: Just set the timer
+            is_waiting_for_second_click = True
+            last_click_time = current_time
+            print("⏸️ First Click detected. Click again to skip.")
+            
+        else:
+            # Second click: Check if it was fast enough
+            if current_time - last_click_time <= WAIT_WINDOW:
+                perform_skip()
+                is_waiting_for_second_click = False 
+            else:
+                # If too slow, treat this as the new 'First Click'
+                last_click_time = current_time
+                print("⚠️ Reset! Click again to skip.")
+
+print("🎧 Ad Sniper Online.")
+print(f"1. Click headphones to pause.")
+print(f"2. Click again within {WAIT_WINDOW}s to skip.")
+print("Press 'Esc' in this window to stop.")
+
+# The Listener doesn't need voice libraries, so it should run perfectly
+with keyboard.Listener(on_press=on_press) as listener:
+    listener.join()
