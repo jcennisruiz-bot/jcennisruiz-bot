@@ -1,0 +1,22 @@
+import datetime
+import requests
+import customtkinter as ctk
+def func():
+    date = datetime.date.today()
+    url = f"https://www.nytimes.com/svc/wordle/v2/{date:%Y-%m-%d}.json"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        print("answer for today: " + data["solution"])
+        label.configure(text="answer: " + data["solution"])
+    else:
+        print(f"Failed to retrieve data. Status code: {response.status_code}")
+
+root = ctk.CTk()
+root.geometry("400x400")
+btn = ctk.CTkButton(root, text="Get Today's Answer", command=func)
+label = ctk.CTkLabel(root, text="Answer Here")
+btn.pack()
+label.pack()
+root.mainloop()
+
