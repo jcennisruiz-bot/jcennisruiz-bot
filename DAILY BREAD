@@ -1,0 +1,7 @@
+import requests
+
+response = requests.get("https://bible-api.com/data/web/random")
+if response.status_code == 200:
+    test = response.json()
+    test2 = test['random_verse']
+    print(f"YOUR VERSE: {test2['text']}")
