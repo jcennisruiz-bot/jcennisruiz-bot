@@ -1,0 +1,13 @@
+import requests
+text = 'YOUR SIDEQUEST: '
+title = "QUEST MENU"
+length = 10
+text2 = 'ESTIMATED TIME: '
+div = "=" * length
+request = requests.get('https://bored-api.appbrewery.com/random')
+data = request.json()
+print(title)
+print(div)
+print( "STATS ")
+print(text + data['activity'])
+print(text2 + data['duration'])
